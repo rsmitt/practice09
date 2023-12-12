@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+    для удобства настройки приложения, значения настроек можно вынести в отдельный файл с которым
+    будут работать конечные пользователи т.к. они не должны знать внутренней специфики приложения
+    -->
+    <context:property-placeholder location="application.properties" />
+
+    <bean id="helloWorldProvider" class="org.example.HelloWorldProvider" />
+    <bean id="anotherProvider" class="org.example.AnotherProvider" />
+
+    <!--
+    Так как работа приложения реализована через интерфейс, можно легко поменять логику работы изменим 1 строчку кода,
+    подставив нужную реализацию интерфейса
+    -->
+    <!-- Внедрение параметра из конфигурационного файла через конструктор -->
+<!--
+    <bean id="helloWorldWriter" class="org.example.HelloWorldWriter" init-method="initWriter" destroy-method="destroyWriter">
+        <constructor-arg name="provider" ref="anotherProvider" />
+        <constructor-arg name="fileName" value="${fileName}" />
+    </bean>
+-->
+
+    <!-- Внедрение параметра из конфигурационного файла через setter -->
+        <bean id="helloWorldWriter" class="org.example.HelloWorldWriter" init-method="initWriter" destroy-method="destroyWriter">
+            <constructor-arg name="provider" ref="anotherProvider" />
+            <property name="fileName" value="${fileName}" />
+        </bean>
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="helloWorldProvider" class="org.example.HelloWorldProvider" />
+    <!--<bean id="helloWorldWriter" class="org.example.HelloWorldWriter" />-->
+
+    <!-- =============================================================== -->
+    <!-- внедрение provider через конструктор -->
+    <!--
+        <bean id="helloWorldWriter" class="org.example.HelloWorldWriter">
+            <constructor-arg name="provider" ref="helloWorldProvider" />
+        </bean>
+    -->
+
+    <!-- =============================================================== -->
+    <!-- внедрение provider через setter setProvider -->
+    <!--
+        <bean id="helloWorldWriter" class="org.example.HelloWorldWriter">
+            <property name="provider" ref="helloWorldProvider" />
+        </bean>
+    -->
+
+    <!-- =============================================================== -->
+    <!--
+        внедрение provider через конструктор + внедрение имени файла через setter
+        ref - используется для внедрения другого бина
+        value - внедрение значений String, int и т.д.
+    -->
+    <!--
+        <bean id="helloWorldWriter" class="org.example.HelloWorldWriter">
+            <constructor-arg name="provider" ref="helloWorldProvider" />
+            <property name="fileName" value="input.txt" />
+        </bean>
+    -->
+
+    <!-- =============================================================== -->
+    <!--
+        init-method - метод вызывается во время инициализации бина
+        destroy-method - метод вызывается перед тем как бин буден уничтожен
+    -->
+    <bean id="helloWorldWriter" class="org.example.HelloWorldWriter" init-method="initWriter" destroy-method="destroyWriter">
+        <constructor-arg name="provider" ref="helloWorldProvider" />
+        <property name="fileName" value="input.txt" />
+    </bean>
+
+</beans>
